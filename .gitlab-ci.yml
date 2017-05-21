@@ -1,4 +1,4 @@
-image: test.makerforce.io:8443/build-images/ubuntu-nodejs/image:master
+image: test.makerforce.io:8443/build-images/ubuntu-nodejs:master
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -19,3 +19,8 @@ build:
     - echo "Building container..."
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
+
+deploy:
+  stage: deploy
+  script:
+    - 
