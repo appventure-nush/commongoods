@@ -12,14 +12,7 @@ COPY tools.js /app/tools.js
 COPY gm /bin/gm
 COPY /usr/bin/node /bin/node
 
-ENV IP 0.0.0.0
-ENV PORT 8080
-EXPOSE 8080
-ENV DATA_DIR /data
-VOLUME /data
-
-ENV DB_HOST localhost
-ENV DB_PORT 27100
+ENV DB_SOCKET $SOCKET_DIR/thepool-mongodb.sock
 ENV DB_USER root
 ENV DB_PASSWORD ""
 ENV DB_NAME thepool

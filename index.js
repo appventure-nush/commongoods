@@ -7,11 +7,10 @@ var handlebars = require("handlebars");
 
 var dbUser = process.env.DB_USER;
 var dbPassword = process.env.DB_PASSWORD;
-var dbHost = process.env.DB_HOST;
-var dbPort = process.env.DB_PORT;
+var dbSocket = process.env.DB_SOCKET;
 var dbName = process.env.DB_NAME;
 
-mongoose.connect('mongodb://' + dbUser + ':' + dbPassword + '@' + dbHost + ':' + dbPort + '/' + dbName, { config: { autoIndex: true } });
+mongoose.connect('mongodb://' + dbUser + ':' + dbPassword + '@' + dbSocket + '/' + dbName, { config: { autoIndex: true } });
 
 var models = require("./models")(mongoose);
 var backend = require("./backend")(mongoose, models);
@@ -96,7 +95,7 @@ app.use("/files", express.static(process.env.DATA_DIR));
 
 app.use(express.static(path.join(__dirname, "assets")));
 
-var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1", function () {
+var server = app.listen(process.env.LISTEN_SOCKET, function () {
     console.log("listening");
 });
 

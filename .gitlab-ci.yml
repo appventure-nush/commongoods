@@ -7,6 +7,10 @@ before_script:
   - git submodule update
 
 variables:
+  DOMAIN: thepool.test.makerforce.io
+  DOMAIN_STAGING: staging.$DOMAIN
+  NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
+  NAME_STAGING: $NAME
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
 build:
@@ -20,7 +24,31 @@ build:
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
 
-deploy:
+deploy_staging:
   stage: deploy
   script:
-    - 
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh deploy@test.makerforce.io sudo /srv/bin/deploy $NAME_STAGING $DOMAIN_STAGING $IMAGE_TAG
+  environment:
+    name: staging
+    url: https://$DOMAIN_STAGING
+  only:
+    - master
+
+deploy_production:
+  stage: deploy
+  script:
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh deploy@test.makerforce.io sudo /srv/bin/deploy $NAME $DOMAIN $IMAGE_TAG
+  environment:
+    name: production
+    url: https://$DOMAIN
+  when: manual
+  only:
+    - master
