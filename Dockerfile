@@ -18,6 +18,12 @@ EXPOSE 8080
 ENV DATA_DIR /data
 VOLUME /data
 
+ENV DB_HOST localhost
+ENV DB_PORT 27100
+ENV DB_USER root
+ENV DB_PASSWORD ""
+ENV DB_NAME thepool
+
 WORKDIR /app/
 
 ENTRYPOINT ["/bin/node", "index.js"]

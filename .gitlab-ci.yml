@@ -1,11 +1,13 @@
-image: serverwentdown/ubuntu-node:latest
+image: test.makerforce.io:8443/build-images/ubuntu-nodejs/image:master
 
 before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  - docker info
   - git submodule init
   - git submodule update
 
-stages:
-  - build
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
 build:
   stage: build
@@ -14,37 +16,6 @@ build:
     - npm install
     - echo "Building assets..."
     - node node_modules/grunt-cli/bin/grunt
-    - echo "Getting acbuild..."
-    - wget https://github.com/containers/build/releases/download/v0.4.0/acbuild-v0.4.0.tar.gz -O /tmp/acbuild.tar.gz
-    - tar -C /tmp/ -xvf /tmp/acbuild.tar.gz
     - echo "Building container..."
-    - /tmp/acbuild-v0.4.0/acbuild begin
-    - /tmp/acbuild-v0.4.0/acbuild set-name aci.makerforce.io/thepool-app
-    - /tmp/acbuild-v0.4.0/acbuild dep add aci.makerforce.io/ubuntu
-    - /tmp/acbuild-v0.4.0/acbuild label add version latest
-    - /tmp/acbuild-v0.4.0/acbuild label add os linux
-    - /tmp/acbuild-v0.4.0/acbuild label add arch amd64
-    - /tmp/acbuild-v0.4.0/acbuild copy node_modules/ /app/node_modules/
-    - /tmp/acbuild-v0.4.0/acbuild copy assets/ /app/assets/
-    - /tmp/acbuild-v0.4.0/acbuild copy views/ /app/views/
-    - /tmp/acbuild-v0.4.0/acbuild copy frontend.js /app/frontend.js
-    - /tmp/acbuild-v0.4.0/acbuild copy backend.js /app/backend.js
-    - /tmp/acbuild-v0.4.0/acbuild copy files.js /app/files.js
-    - /tmp/acbuild-v0.4.0/acbuild copy models.js /app/models.js
-    - /tmp/acbuild-v0.4.0/acbuild copy index.js /app/index.js
-    - /tmp/acbuild-v0.4.0/acbuild copy tools.js /app/tools.js
-    - /tmp/acbuild-v0.4.0/acbuild copy gm /bin/gm
-    - /tmp/acbuild-v0.4.0/acbuild copy $(which node) /bin/node
-    - /tmp/acbuild-v0.4.0/acbuild environment add IP 0.0.0.0
-    - /tmp/acbuild-v0.4.0/acbuild environment add PORT 8080
-    - /tmp/acbuild-v0.4.0/acbuild port add http tcp 8080
-    - /tmp/acbuild-v0.4.0/acbuild environment add DATA_DIR /data
-    - /tmp/acbuild-v0.4.0/acbuild mount add data /data
-    - /tmp/acbuild-v0.4.0/acbuild set-exec -- /bin/node index.js
-    - /tmp/acbuild-v0.4.0/acbuild set-working-directory /app/
-    - /tmp/acbuild-v0.4.0/acbuild write app.aci
-    - /tmp/acbuild-v0.4.0/acbuild end
-  artifacts:
-    paths:
-      - app.aci
-
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
