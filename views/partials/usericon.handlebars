@@ -1,0 +1,8 @@
+<div class="user-icon" data-toggle="tooltip" data-placement="top" title="{{user.username}}">
+	{{#if user.avatar}}
+	<img src="{{fileURL user.avatar}}" class="avatar" />
+	{{else}}
+	<div class="initials"{{#if user.color}} style="background-color: {{user.color}};"{{/if}}><span>{{initialsFrom user.name}}</span></div>	
+	{{/if}}
+	{{#if norep}}{{else}}<span class="badge">{{user.reputation}}</span>{{/if}}
+</div>

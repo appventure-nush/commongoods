@@ -1,0 +1,24 @@
+<main class="container special">
+	<div class="row">
+		<section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			{{#if error}} 
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Error! </strong>{{ error }}
+			</div>
+			{{/if}}                    
+			{{#unless isowner}}
+				{{#if item.wanter}}
+					<h2>Request submitted</h2>
+					<p>You now can wait for the owner to accept your request. </p>
+					<!-- <a href="/messaging/{{item.owner.username}}" class="btn btn-lg btn-primary btn-block">Talk to {{item.owner.name}}</a> -->
+				{{else}}
+					<h2>Nobody wants this item</h2>
+				{{/if}}
+			{{else}}
+				<h2>You are the owner of this item</h2>
+			{{/unless}}
+			<a href="javascript:window.history.back()" class="btn btn-lg btn-info btn-block">Back to item</a>
+		</section>  
+	</div>
+</main>

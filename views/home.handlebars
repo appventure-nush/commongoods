@@ -1,0 +1,38 @@
+<script src="https://maps.googleapis.com/maps/api/js?v=3&signed_in=false&key=AIzaSyBzbxMBI-iiT11Dlf8TijF22aWUBNXIs9o"></script>
+<script>
+	// In this example, we center the map, and add a marker, using a LatLng object
+	// literal instead of a google.maps.LatLng object. LatLng object literals are
+	// a convenient way to add a LatLng coordinate and, in most cases, can be used
+	// in place of a google.maps.LatLng object.
+
+	var map;
+	function initialize() {
+		var mapOptions = {
+		zoom: 11,
+		center: {lat: 1.36, lng: 103.82},
+		disableDefaultUI: true
+		};
+		map = new google.maps.Map(document.querySelector('.map-canvas'), mapOptions);
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<div class="map-canvas full-page" style="position: relative" tabindex="-1"></div>
+<div class="jumbotron text-center full-page">
+	<h1 class="display-4">A platform for sharing</h1>
+	<p></p>
+	<!-- <p><a class="btn btn-lg btn-primary-transparent" href="/map" role="button" style="pointer-events: all" onclick="var time = 1000; $('.jumbotron *').fadeOut(time); $('.jumbotron').css('transition', time + 'ms background-color'); $('.map-canvas .gm-style').css('transition', time + 'ms -wobkit-filter'); $('.jumbotron').css('background-color', 'transparent'); $('.map-canvas .gm-style').css('-webkit-filter', 'blur(0)'); setTimeout(function () { window.location = $('.jumbotron a').attr('href'); }, time); return false;">View map</a></p> -->
+</div>
+
+<main class="listing">
+	<h1 class="list-title">Recent items</h1>
+
+	<div class="items">
+		{{#each items}}
+			{{#if available}}
+				{{> item}}
+			{{/if}}
+		{{/each}}
+	</div>
+</main>

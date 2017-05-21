@@ -1,0 +1,12 @@
+<div class="image-pick" data-type="{{type}}" {{#if existing}}data-existing="{{existing}}"{{/if}} data-text-pick-new="{{new}}" data-text-pick-again="{{another}}">
+	<button type="button" class="btn btn-lg btn-secondary btn-block image-7-no-cape">
+		<span>  Loading image picker...</span>
+		<input type="file" class="form-control input-lg image-file" name="file" accept="image/*" />
+	</button>
+	
+	<progress class="progress progress-primary" value="0" max="100"></progress>
+	
+	<img src="" class="image-preview"/>
+	
+	<input type="hidden" name="{{name}}" class="image-id" />
+</div>

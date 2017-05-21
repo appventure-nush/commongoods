@@ -1,0 +1,10 @@
+<main class="listing">
+    <h1 class="listtitle">{{title}}</h1>
+	<div class="items">
+		{{#each items}}
+			{{#if available}}
+				{{> item}}
+			{{/if}}
+		{{/each}}
+	</div>
+</main>

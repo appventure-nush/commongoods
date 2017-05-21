@@ -1,0 +1,9 @@
+[submodule "assets/sass/_bootstrap"]
+	path = assets/sass/_bootstrap
+	url = http://github.com/twbs/bootstrap.git
+[submodule "assets/js/lite-uploader"]
+	path = assets/js/lite-uploader
+	url = http://github.com/burt202/lite-uploader.git
+[submodule "assets/js/autosize"]
+	path = assets/js/autosize
+	url = http://github.com/jackmoore/autosize.git

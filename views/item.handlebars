@@ -1,0 +1,143 @@
+<main class="container item-view">
+	{{#if success}}
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				{{ success }}
+			</div>
+		</div>
+	</div>
+	{{/if}}
+	{{#if error}}
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Error! </strong>{{ error }}
+			</div>
+		</div>
+	</div>
+	{{/if}}
+	{{#with item}}
+	<div class="row">
+		<div class="col-md-7 col-sm-12 col-xs-12">
+			<div class="card left item-picture">
+				<img src="{{fileURL picture}}" class="img" />
+			</div>
+		</div>
+		<div class="col-md-5 col-sm-12 col-xs-12">
+			<div class="card right item-details">
+				<h2>{{name}}</h2>
+				<div class="item-description">
+					<h4>Description</h4>
+					<p>
+						{{newlinetobr description}}
+					</p>
+				</div>
+				<!-- <div class="item-pickup">
+					<h4>Pickup Details</h4>
+					<p>
+						{{newlinetobr pickup}}
+					</p>
+				</div> -->
+				{{#with owner}}
+				<div class="item-user">
+					<h4>Owner</h4>
+					<div class="pull-left">
+						{{> usericon user=this norep=true}}
+					</div>
+					<div class="info">
+						<a href="/user/{{username}}">
+							<h1>{{name}}</h1>
+						</a>
+						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
+						{{#if @root.iswanter}}<a href="/messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				{{/with}}
+				{{#either @root.iswanter @root.isowner}}
+				{{#status "pending" "accepted"}}
+				{{#with wanter}}
+				<div class="item-wanter">
+					<h4>Wanted by</h4>
+					<div class="pull-left">
+						{{> usericon user=this norep=true}}
+					</div>
+					<div class="info">
+						<a href="/user/{{username}}">
+							<h1>{{name}}</h1>
+						</a>
+						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
+						{{#if @root.isowner}}<a href="/messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				{{/with}}
+				{{/status}}
+				{{/either}}
+				<div class="toolbar">
+					{{#status "posted" "rejected" "passed"}}
+						{{#if @root.isowner}}
+							<form method="post" action="/item/{{_id}}/available" class="form-inline post-button">
+								{{#if available}}
+									<button type="submit" class="btn btn-primary">Set as Unavailable</button>
+								{{else}}
+									<button type="submit" class="btn btn-primary">Set as Available</button>
+								{{/if}}
+							</form>
+							<a href="/item/{{_id}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+						{{/if}}
+						{{#unless @root.isowner}}
+							<form method="post" action="/item/{{_id}}/want">
+								<button type="submit" class="btn btn-primary">Get Item</button>
+							</form>
+						{{/unless}}
+					{{/status}}
+					{{#status "pending"}}
+						{{#if @root.isowner}}
+							<a href="/item/{{_id}}/give" class="btn btn-info"><i class="glyphicon glyphicon-gift"></i> Accept/Reject</a>
+						{{/if}}
+						{{#if @root.iswanter}}
+							<button class="btn btn-primary" disabled>Waiting for owner to accept</button>
+						{{/if}}
+					{{/status}}
+					{{#status "accepted"}}
+						{{#if @root.iswanter}}
+							<form method="post" action="/item/{{_id}}/confirm">
+								<button type="submit" class="btn btn-primary">Confirm that you have recieved it</button>
+							</form>
+						{{/if}}
+						{{#if @root.isowner}}
+							<button class="btn btn-primary" disabled>Waiting for confirmation</button>
+						{{/if}}
+					{{/status}}
+				</div>
+			</div>
+			{{#if history}}
+			
+			<div class="card right item-history">
+				<div class="item-description">
+					<h4>Past owners</h4>
+					{{#each_backward history}}
+					<div class="user">
+					<div class="pull-left">
+						{{> usericon user=this norep=true}}
+					</div>
+					<div class="info">
+						<a href="/user/{{username}}">
+							<h1>{{name}}</h1>
+						</a>
+						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
+					</div>
+					<div class="clearfix"></div>
+					</div>
+					{{/each_backward}}
+				</div>
+			</div>
+			{{/if}}
+		</div>
+    </div>  
+	{{/with}}
+</main>

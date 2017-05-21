@@ -1,0 +1,24 @@
+<main class="container special">
+	<div class="row">
+		<section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<h2>Edit Profile</h2>
+			<form method="post" action="/user/{{user.username}}/edit">
+				{{#if error}} 
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Error! </strong>{{ error }}
+				</div>
+				{{/if}}
+				
+				{{> imagepicker existing=user.avatar type="profile" name="avatar" new="Select avatar" another="Select another avatar"}}
+
+				<input type="text" class="form-control input-lg" name="username" placeholder="Username" value="{{user.username}}" disabled />
+				
+				<input type="text" class="form-control input-lg" name="name" placeholder="Name" value="{{user.name}}" disabled />
+
+				<button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Save</button>
+				<a href="/user/{{user.username}}" class="btn btn-lg btn-link btn-block">Cancel</a>
+			</form>
+		</section>  
+	</div>
+</main>

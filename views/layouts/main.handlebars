@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>commongoods</title>
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="shortcut icon" href="/images/icon-o.jpg" />
+        <link rel="apple-touch-icon-precomposed" href="/images/icon-o.jpg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href='//fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css' />
+    </head>
+    <body class="{{#if transparentnav}}transparentnav{{/if}} {{#if showfooter}}showfooter{{/if}}">
+
+        {{{body}}}
+
+        <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
+
+            <a class="navbar-brand-wrapper" href="/"><img src="/images/icon.svg" class="navbar-brand-icon" /><span class="navbar-brand">commongoods</span></a>
+
+            <form class="form-inline navbar-form" action="/search">
+                <div class="input-group">
+                    <input class="form-control btn-primary-transparent" type="search" placeholder="" name="q" value="{{query}}" tabindex="1" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary-transparent" type="submit" tabindex="2"><i class="glyphicon glyphicon-search" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </form>
+
+            <ul class="nav navbar-nav">
+                {{#if loggedin}}
+                <li class="nav-item dropdown-toggle user-icon" role="button" tabindex="3" data-toggle="dropdown">
+					{{#if user.avatar}}
+					<img src="{{fileURL user.avatar}}" class="avatar" />
+					{{else}}
+					<div class="initials"{{#if user.color}} style="background-color: {{user.color}};"{{/if}}><span>{{initialsFrom user.name}}</span></div>	
+					{{/if}}
+                    {{#if notificationcount}}<span class="badge">{{notificationcount}}</span>{{/if}}
+                </li>
+                <ul class="dropdown-menu dropdown-menu-right">                        					
+                    <li class="dropdown-item"><a class="dropdown-link" href="/notifications">Notifications{{#if notificationcount}} <span class="badge">{{notificationcount}}</span>{{/if}}</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="/new">New Item</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="/user/{{user.username}}">Profile</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="/logout">Logout</a></li>
+                </ul>
+                {{else}}
+                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+
+        <footer>
+            <div class="container">
+                <nav>
+                    <ul class="pull-left">
+                        <li><a href="/faq">FAQ</a></li>	
+                    </ul>
+                    <ul class="pull-left">
+                        <li><a href="/about">About</a></li>	
+                    </ul>
+                </nav>
+                <p class="pull-right text-right">&copy; 2017 commongoods</p>
+                <div class="clearfix"></div>
+                <div class="text-center footer-bottom">
+                    <img src="/images/icon.svg" class="footer-brand-icon" />
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-2.1.4.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/autosize/dist/autosize.min.js"></script>
+        <script src="/js/lite-uploader/jquery.liteuploader.min.js"></script>
+        <script src="/js/image.js"></script>
+        <script src="/js/maps.js"></script>
+        <script src="/js/other.js"></script>
+    </body>
+</html>

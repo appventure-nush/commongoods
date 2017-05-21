@@ -1,0 +1,21 @@
+<main class="container special">
+    <div class="row">
+        <section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+            {{#if success}}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ success }}
+            </div>
+            {{/if}}
+            <h2>Login</h2>
+			{{#if error}} 
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Error! </strong>{{error}}
+			</div>
+			{{/if}}
+                
+			<a href="/auth" class="btn btn-lg btn-primary btn-block">Login with Office365</a>
+        </section>  
+    </div>
+</div>

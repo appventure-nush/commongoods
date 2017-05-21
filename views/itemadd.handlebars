@@ -1,0 +1,26 @@
+<main class="container special">
+	<div class="row">
+		<section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<h2>{{#if editing}}Editing this item{{else}}Share an item{{/if}}</h2>
+			<form method="post" action="{{#if item}}/item/{{item._id}}/edit{{else}}/new{{/if}}">
+				{{#if error}} 
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Error! </strong>{{ error }}
+				</div>
+				{{/if}}
+				<input type="text" name="name" placeholder="Name" required class="form-control input-lg" value="{{item.name}}"/>
+
+				{{> imagepicker existing=item.picture type="picture" name="picture" new="Select image" another="Select another image"}}
+
+				<textarea name="description" rows="6" col="500" class="form-control input-lg"  placeholder="Item Description">{{item.description}}</textarea>
+				
+				<!-- <textarea name="pickup" rows="2" col="500" class="form-control input-lg"  placeholder="Pickup Details">{{item.pickup}}</textarea> -->
+				
+				<button type="submit" name="go" class="btn btn-lg btn-primary btn-block">{{#if editing}}Save{{else}}Share{{/if}}</button>
+				{{#if editing}}<a href="/item/{{item._id}}" class="btn btn-lg btn-link btn-block">Cancel</a>{{/if}}
+			</form>
+
+		</section>  
+	</div>
+</main>  

@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/messaging.css" />
+
+<main class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 col-xs-12">
+			<div class="list-group">
+			<script type="text/x-handlebars-template">
+				\{{#each messages}}
+				<div class="list-group-item\{{#if isself}} isself\{{/if}}">
+					<small>\{{#if isself}}\{{../../me.name}}\{{else}}\{{../../to.name}}\{{/if}}: </small> 
+					\{{text}}
+				</div>
+				\{{/each}}
+			</script>
+			</div>
+		</div>
+	</div>
+
+	<form class="row" name="messageform" id="messageform">
+		<div class="col-md-8 col-md-offset-2 col-xs-12">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Enter message" id="message" required>
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
+				</span>
+			</div>
+		</div>
+	</form>
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/handlebars-v3.0.3.js"></script>
+<script src="/js/messaging.js"></script>

@@ -1,0 +1,30 @@
+<main class="container special">
+	<div class="row">
+		<section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			{{#if error}} 
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Error! </strong>{{ error }}
+			</div>
+			{{/if}}
+			{{#if isowner}}
+				{{#if item.wanter}}
+					<h2>{{item.wanter.name}} wants this item</h2>
+					<form method="post" action="/item/{{item._id}}/accept">
+						<button type="submit" name="confirm" class="btn btn-lg btn-success btn-block">Accept</button>
+					</form>
+					<form method="post" action="/item/{{item._id}}/reject">					
+						<button type="submit" name="confirm" class="btn btn-lg btn-danger btn-block">Reject</button>
+					</form>
+					<p>After this, you can arrange a meeting with him through the messaging system.</p>
+				{{else}}
+					<h2>Nobody wants this item</h2>
+					<a href="javascript:window.history.back()" class="btn btn-lg btn-info btn-block">Back to item</a>
+				{{/if}}
+			{{else}}
+				<h2>You are the owner of this item</h2>
+				<a href="javascript:window.history.back()" class="btn btn-lg btn-info btn-block">Back to item</a>
+			{{/if}}
+		</section>  
+	</div>
+</main>

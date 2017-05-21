@@ -1,0 +1,65 @@
+<main class="container user-view">
+	{{#if success}}
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				{{ success }}
+			</div>
+		</div>
+	</div>
+	{{/if}}
+	{{#if error}}
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Error! </strong>{{ error }}
+			</div>
+		</div>
+	</div>
+	{{/if}}
+	<div class="row">
+		<div class="col-md-5 col-sm-12 col-xs-12">
+			<div class="card right user">
+				<div class="user-avatar pull-left">
+					{{> usericon user=profile norep=true}}
+				</div>
+				<h2>{{profile.name}}</h2>
+				<div class="user-reputation">
+					<h4>Reputation</h4>
+					<p class="">
+						<i class="glyphicon glyphicon-star"></i> <span>{{profile.reputation}}</span>
+					</p>
+				</div>
+				{{#if loggedin}}
+				<div class="toolbar">
+					{{#if ownprofile}}
+						<a href="/user/{{user.username}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit Profile</a>
+					{{else}}
+						<a href="/messaging/{{profile.username}}" class="btn btn-primary"><i class="glyphicon glyphicon-inbox"></i> Message{{#if profile.unreadmessages}} <span class="badge">{{profile.unreadmessages}} <small>unread</small></span>{{/if}}</a>		
+						<form method="post" action="/user/{{profile.username}}/flag" class="form-inline" style="display: inline">
+							{{#if hasflagged}}
+								<button title="Unflag the user" type="submit" class="btn btn-danger disabled" style="cursor:pointer;">
+									<span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+								</button>
+							{{else}}
+								<button title="Flag the user" type="submit" class="btn btn-danger">
+									<span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+								</button>
+							{{/if}}
+						</form>
+					{{/if}}
+				</div>
+				{{/if}}
+			</div>
+		</div>
+		<div class="col-md-7 col-sm-12 col-xs-12">
+			<div class="items left">
+				{{#each items}}
+					{{> item}}
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</main>
