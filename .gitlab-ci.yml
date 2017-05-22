@@ -10,7 +10,7 @@ variables:
   DOMAIN: thepool.test.makerforce.io
   DOMAIN_STAGING: staging.$DOMAIN
   NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
-  NAME_STAGING: $NAME
+  NAME_STAGING: $NAME-staging
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
 build:
@@ -31,7 +31,7 @@ deploy_staging:
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh deploy@test.makerforce.io sudo /srv/bin/deploy $NAME_STAGING $DOMAIN_STAGING $IMAGE_TAG
+    - ssh deploy@test.makerforce.io "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; sudo /srv/bin/deploy $NAME_STAGING $DOMAIN_STAGING $IMAGE_TAG"
   environment:
     name: staging
     url: https://$DOMAIN_STAGING
@@ -45,7 +45,7 @@ deploy_production:
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh deploy@test.makerforce.io sudo /srv/bin/deploy $NAME $DOMAIN $IMAGE_TAG
+    - ssh deploy@test.makerforce.io "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; sudo /srv/bin/deploy $NAME $DOMAIN $IMAGE_TAG"
   environment:
     name: production
     url: https://$DOMAIN
