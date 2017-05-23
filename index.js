@@ -6,11 +6,12 @@ var mongoose = require("mongoose");
 var handlebars = require("handlebars");
 
 var dbHost = process.env.DB_HOST;
-var dbUser = process.env.DB_USER;
+var dbUsername = process.env.DB_USERNAME;
 var dbPassword = process.env.DB_PASSWORD;
 var dbName = process.env.DB_NAME;
 
-mongoose.connect('mongodb://' + dbUser + ':' + dbPassword + '@' + dbHost + '/' + dbName, { config: { autoIndex: true } });
+console.log('Connecting to mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName);
+mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName, { config: { autoIndex: true } });
 
 var models = require("./models")(mongoose);
 var backend = require("./backend")(mongoose, models);
