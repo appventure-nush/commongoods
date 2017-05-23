@@ -7,7 +7,7 @@ before_script:
   - git submodule update
 
 variables:
-  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
 build:
   stage: build
@@ -33,11 +33,11 @@ deploy_staging:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh deploy@test.makerforce.io "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
-        sudo /srv/bin/deploy \
-            -i $IMAGE \
-            -e $ENVIRONMENT \
-            -n $NAME \
-            -d $DOMAIN \
+        sudo /srv/bin/deploy
+            -i $IMAGE
+            -e $ENVIRONMENT
+            -n $NAME
+            -d $DOMAIN
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
@@ -59,11 +59,11 @@ deploy_production:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh deploy@test.makerforce.io "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
-        sudo /srv/bin/deploy \
-            -i $IMAGE \
-            -e $ENVIRONMENT \
-            -n $NAME \
-            -d $DOMAIN \
+        sudo /srv/bin/deploy
+            -i $IMAGE
+            -e $ENVIRONMENT
+            -n $NAME
+            -d $DOMAIN
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
