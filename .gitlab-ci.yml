@@ -34,11 +34,11 @@ deploy_staging:
     - ssh deploy@test.makerforce.io "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
         sudo /srv/bin/deploy \
-			-i $IMAGE \
-			-e $ENVIRONMENT \
-			-n $NAME \
-			-d $DOMAIN \
-			-x DB_HOST=thepool-mongodb-$ENVIRONMENT
+            -i $IMAGE \
+            -e $ENVIRONMENT \
+            -n $NAME \
+            -d $DOMAIN \
+            -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
     name: staging
@@ -60,11 +60,11 @@ deploy_production:
     - ssh deploy@test.makerforce.io "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
         sudo /srv/bin/deploy \
-			-i $IMAGE \
-			-e $ENVIRONMENT \
-			-n $NAME \
-			-d $DOMAIN \
-			-x DB_HOST=thepool-mongodb-$ENVIRONMENT
+            -i $IMAGE \
+            -e $ENVIRONMENT \
+            -n $NAME \
+            -d $DOMAIN \
+            -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
     name: production
