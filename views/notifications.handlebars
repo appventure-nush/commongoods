@@ -15,7 +15,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{wanter.username}}">{{wanter.name}}</a> wants your item <a href="/item/{{_id}}">"{{name}}"</a></div>
+                    <div class="text"><a href="/user/{{wanter.username}}">{{wanter.name}}</a> wants <a href="/user/{{owner.username}}">{{owner.name}}</a>'s item <a href="/item/{{_id}}">"{{name}}"</a></div>
                 </div>
 				{{/status}}
 				{{#status "rejected"}}
@@ -31,7 +31,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{owner.username}}">{{owner.name}}</a> accepted your request for item <a href="/item/{{_id}}">"{{name}}"</a>. Arrange a meeting with him. </div>
+                    <div class="text"><a href="/user/{{owner.username}}">{{owner.name}}</a> accepted <a href="/user/{{wanter.username}}">{{wanter.name}}</a>'s request for item <a href="/item/{{_id}}">"{{name}}"</a>. Arrange a meeting by going to their profile and tapping on messaging. </div>
                 </div>
 				{{/status}}
 				{{#status "passed"}}
