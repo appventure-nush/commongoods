@@ -81,7 +81,7 @@ app.engine('handlebars', expresshbs({
 				ret = ret + options.fn(context[i]);
 			}
 			return ret;
-		}
+		},
     }
 }));
 

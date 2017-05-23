@@ -167,6 +167,7 @@ module.exports = function (mongoose, models) {
 			Message.find({to: req.user._id, read: false}).populate("owner").sort([['_id', 'descending']]).limit(50).lean(),
 			Item.find().or([
 				{status: "pending", owner: req.user._id},
+				{status: "accepted", owner: req.user._id},
 				{status: "accepted", wanter: req.user._id},
 				{status: "rejected", wanter: req.user._id},
 				// {status: "passed", owner: req.user._id}
