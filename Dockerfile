@@ -11,7 +11,7 @@ COPY index.js /app/index.js
 COPY tools.js /app/tools.js
 COPY gm /usr/local/bin/gm
 
-ENV DB_HOST thepool-mongodb-staging
+ENV DB_HOST mongodb
 ENV DB_USER root
 ENV DB_PASSWORD ""
 ENV DB_NAME thepool

@@ -17,40 +17,58 @@ build:
     - echo "Building assets..."
     - node node_modules/grunt-cli/bin/grunt
     - echo "Building container..."
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
 
 deploy_staging:
   stage: deploy
   variables:
-    NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_ENVIRONMENT_NAME
+    NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
+    ENVIRONMENT: $CI_ENVIRONMENT_NAME
     DOMAIN: staging.thepool.test.makerforce.io
   script:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh deploy@test.makerforce.io "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; sudo /srv/bin/deploy $NAME $DOMAIN $IMAGE_TAG"
+    - ssh deploy@test.makerforce.io "
+        docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
+        sudo /srv/bin/deploy \
+			-i $IMAGE \
+			-e $ENVIRONMENT \
+			-n $NAME \
+			-d $DOMAIN \
+			-x DB_HOST=thepool-mongodb-$ENVIRONMENT
+      "
   environment:
     name: staging
-    url: https://$DOMAIN
+    url: $DOMAIN
   only:
     - master
 
 deploy_production:
   stage: deploy
   variables:
-    NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_ENVIRONMENT_NAME
+    NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
+    ENVIRONMENT: $CI_ENVIRONMENT_NAME
     DOMAIN: thepool.test.makerforce.io
   script:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh deploy@test.makerforce.io "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; sudo /srv/bin/deploy $NAME $DOMAIN $IMAGE_TAG"
+    - ssh deploy@test.makerforce.io "
+        docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; 
+        sudo /srv/bin/deploy \
+			-i $IMAGE \
+			-e $ENVIRONMENT \
+			-n $NAME \
+			-d $DOMAIN \
+			-x DB_HOST=thepool-mongodb-$ENVIRONMENT
+      "
   environment:
     name: production
-    url: https://$DOMAIN
+    url: $DOMAIN
   when: manual
   only:
     - master
