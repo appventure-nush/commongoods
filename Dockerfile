@@ -9,6 +9,7 @@ COPY files.js /app/files.js
 COPY models.js /app/models.js
 COPY index.js /app/index.js
 COPY tools.js /app/tools.js
+COPY config.js /app/config.js
 COPY gm /usr/local/bin/gm
 
 ENV DB_HOST mongodb
