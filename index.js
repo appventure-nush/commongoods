@@ -95,7 +95,7 @@ app.use("/files", express.static(process.env.DATA_DIR));
 
 app.use(express.static(path.join(__dirname, "assets")));
 
-var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1, function () {
+var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1", function () {
     console.log("listening");
 });
 
