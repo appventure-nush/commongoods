@@ -14,7 +14,7 @@ COPY gm /usr/local/bin/gm
 
 ENV DB_HOST mongodb
 ENV DB_USER root
-ENV DB_PASSWORD ""
+ENV DB_PASSWORD thepool
 ENV DB_NAME thepool
 
 WORKDIR /app/
