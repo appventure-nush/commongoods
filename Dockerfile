@@ -13,7 +13,7 @@ COPY config.js /app/config.js
 COPY gm /usr/local/bin/gm
 
 ENV DB_HOST mongodb
-ENV DB_USER root
+ENV DB_USERNAME root
 ENV DB_PASSWORD thepool
 ENV DB_NAME thepool
 
