@@ -26,6 +26,7 @@ deploy_staging:
     NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
     ENVIRONMENT: $CI_ENVIRONMENT_NAME
     DOMAIN: staging.thepool.test.makerforce.io
+    PROTOCOL: http
   script:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
@@ -38,12 +39,12 @@ deploy_staging:
             -e $ENVIRONMENT
             -n $NAME
             -d $DOMAIN
-            -p http
+            -p $PROTOCOL
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
     name: staging
-    url: $DOMAIN
+    url: $PROTOCOL://$DOMAIN
   only:
     - master
 
@@ -53,6 +54,7 @@ deploy_production:
     NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
     ENVIRONMENT: $CI_ENVIRONMENT_NAME
     DOMAIN: thepool.test.makerforce.io
+    PROTOCOL: http
   script:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$DEPLOY_SSH_PRIVATE_KEY")
@@ -65,12 +67,12 @@ deploy_production:
             -e $ENVIRONMENT
             -n $NAME
             -d $DOMAIN
-            -p http
+            -p $PROTOCOL
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
     name: production
-    url: $DOMAIN
+    url: $PROTOCOL://$DOMAIN
   when: manual
   only:
     - master
