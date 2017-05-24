@@ -11,7 +11,7 @@ module.exports = {
 		clientID: "e5e7ff39-2c17-4ccd-8827-e67565006a4d",
 		responseType: "id_token",
 		responseMode: "form_post",
-		redirectUrl: "https://thepool.makerforce.io/auth",
+		redirectUrl: process.env.PROTOCOL + "://" + process.env.DOMAIN + "/auth",
 		allowHttpForRedirectUrl: false,
 		useCookieInsteadOfSession: false,
 		cookieEncryptionKeys: [
