@@ -38,7 +38,7 @@ deploy_staging:
             -e $ENVIRONMENT
             -n $NAME
             -d $DOMAIN
-			-p http
+            -p http
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
@@ -65,7 +65,7 @@ deploy_production:
             -e $ENVIRONMENT
             -n $NAME
             -d $DOMAIN
-			-p http
+            -p http
             -x DB_HOST=thepool-mongodb-$ENVIRONMENT
       "
   environment:
