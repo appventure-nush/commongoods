@@ -1,5 +1,11 @@
 FROM test.makerforce.io:8443/run-images/ubuntu-nodejs:master
 
+RUN apt-get update && \
+	apt-get install -y \
+		graphicsmagick
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 COPY node_modules/ /app/node_modules/
 COPY assets/ /app/assets/
 COPY views/ /app/views/
@@ -10,7 +16,6 @@ COPY models.js /app/models.js
 COPY index.js /app/index.js
 COPY tools.js /app/tools.js
 COPY config.js /app/config.js
-COPY gm /usr/local/bin/gm
 
 ENV DB_HOST mongodb
 ENV DB_USERNAME thepool
