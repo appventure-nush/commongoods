@@ -25,7 +25,7 @@ deploy_staging:
   variables:
     NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
     ENVIRONMENT: $CI_ENVIRONMENT_NAME
-    DOMAIN: staging.thepool.test.makerforce.io
+    DOMAIN: staging.thepool.1.labs.0x.no
     PROTOCOL: http
   script:
     - eval $(ssh-agent -s)
@@ -53,7 +53,7 @@ deploy_production:
   variables:
     NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
     ENVIRONMENT: $CI_ENVIRONMENT_NAME
-    DOMAIN: thepool.test.makerforce.io
+    DOMAIN: thepool.1.labs.0x.no
     PROTOCOL: http
   script:
     - eval $(ssh-agent -s)
