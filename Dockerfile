@@ -1,4 +1,4 @@
-FROM test.makerforce.io:8443/run-images/ubuntu-nodejs:master
+FROM node:8
 
 RUN apt-get update && \
 	apt-get install -y \
