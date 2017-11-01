@@ -5,6 +5,7 @@ var frontend = express.Router();
 frontend.use(function (req, res, next) {
     res.data.error = req.flash("error");
     res.data.success = req.flash("success");
+	res.data.DEBUG = process.env.DEBUG;
     next();
 });
 

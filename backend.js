@@ -37,56 +37,61 @@ module.exports = function (mongoose, models) {
     }));
     backend.use(passport.initialize());
     backend.use(passport.session());
-
-	var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+	
 	var config = require("./config.js");
-
-	passport.use(new OIDCStrategy({
-		identityMetadata: config.creds.identityMetadata,
-		clientID: config.creds.clientID,
-		responseType: config.creds.responseType,
-		responseMode: config.creds.responseMode,
-		redirectUrl: config.creds.redirectUrl,
-		allowHttpForRedirectUrl: config.creds.allowHttpForRedirectUrl,
-		clientSecret: config.creds.clientSecret,
-		validateIssuer: config.creds.validateIssuer,
-		isB2C: config.creds.isB2C,
-		issuer: config.creds.issuer,
-		passReqToCallback: config.creds.passReqToCallback,
-		scope: config.creds.scope,
-		loggingLevel: config.creds.loggingLevel,
-		nonceLifetime: config.creds.nonceLifetime,
-		nonceMaxAmount: config.creds.nonceMaxAmount,
-		useCookieInsteadOfSession: config.creds.useCookieInsteadOfSession,
-		cookieEncryptionKeys: config.creds.cookieEncryptionKeys,
-		clockSkew: config.creds.clockSkew,
-	}, function (iss, sub, profile, accessToken, refreshToken, done) {
-		console.log(profile);
-		var email = profile._json.preferred_username;
-		if (!config.allowed.test(email)) {
-            return done(null, false, { message: "Can't login, bad email. " });
-		}
-        User.findOne({username: email}, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-				// Create user
-				var user = User({
-					username: email,
-					name: profile.displayName,
-					color: make_color({ saturation: 1 })[0]
-				});
-				user.save(function (err) {
-					return done(err, user);
-				});
-            }
-			else {
-				// User exists
-				return done(null, user);
+	var Strategy = require('openid-client').Strategy;
+	var Issuer = require('openid-client').Issuer;
+	var registerPassport = function (client, params) {
+		passport.use('oidc', new Strategy({ client, params }, function (tokenset, done) {
+			var email = tokenset.claims.email;
+			var name = tokenset.claims.name;
+			if (!config.allowed.test(email)) {
+				return done(null, false, { message: "Can't login, bad email. " });
 			}
-        });
-	}));
+			User.findOne({username: email}, function (err, user) {
+				if (err) {
+					return done(err);
+				}
+				if (!user) {
+					// Create user
+					var user = User({
+						username: email,
+						name: name,
+						color: make_color({ saturation: 1 })[0]
+					});
+					user.save(function (err) {
+						return done(err, user);
+					});
+				}
+				else {
+					// User exists
+					return done(null, user);
+				}
+			});
+		}));
+
+		backend.get('/auth', passport.authenticate('oidc', {
+			failureRedirect: '/login',
+			failureFlash: true
+		}));
+
+		backend.get('/callback', passport.authenticate('oidc', {
+			successRedirect: '/',
+			failureRedirect: '/login',
+			failureFlash: true
+		}));
+	}
+	Issuer.discover(config.oidc.issuer)
+	.then(function (issuer) {
+		var client = new issuer.Client({
+			client_id: config.oidc.client_id,
+			client_secret: config.oidc.client_secret,
+			redirect_uris: [config.oidc.redirect_uri],
+		});
+		registerPassport(client, {
+			scope: 'openid profile email'
+		});
+	});
 
     passport.serializeUser(function (user, done) {
         done(null, user.id);
@@ -638,16 +643,5 @@ module.exports = function (mongoose, models) {
         res.redirect("/");
     });
     
-	backend.get('/auth', passport.authenticate('azuread-openidconnect', {
-		failureRedirect: '/login',
-		failureFlash: true
-	}));
-
-    backend.post('/auth', passport.authenticate('azuread-openidconnect', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
-	}));
-
     return backend;
 };

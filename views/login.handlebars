@@ -15,7 +15,13 @@
 			</div>
 			{{/if}}
                 
-			<a href="/auth" class="btn btn-lg btn-primary btn-block">Login with Office365</a>
+			<a href="/auth" class="btn btn-lg btn-primary btn-block">Login through NUS High</a>
+
+			{{#if DEBUG}}
+			<p>DEBUG MODE ENABLED. </p>
+			{{else}}
+			<p>Only staff are allowed to login. </p>
+			{{/if}}
         </section>  
     </div>
 </div>
