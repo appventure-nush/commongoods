@@ -17,6 +17,8 @@ ENV DB_USERNAME thepool
 ENV DB_PASSWORD 54faf1c93837
 ENV DB_NAME thepool
 
+ENV DATA_DIR /data
+
 WORKDIR /app/
 
 ENTRYPOINT ["/usr/local/bin/node", "index.js"]

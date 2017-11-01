@@ -3,15 +3,19 @@
 
 A fork of commongoods for the staff, running as a container. 
 
-## ENV_VARS
+# commongoods-app
 
-```
-DATA_DIR path to data directory
-DB_USER
-DB_PASSWORD
-DB_HOST
-DB_NAME
-```
+Network:
+* primary
+
+Volumes:
+* //d/commongoods-app:/data
+
+Environment:
+* DB_USER (optional)
+* DB_PASSWORD (optional)
+* DB_HOST (optional)
+* DB_NAME (optional)
 
 ## Developing
 
