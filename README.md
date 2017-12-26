@@ -1,21 +1,34 @@
 
-# thepool
+# commongoods [![Build Status](https://appventure.nushigh.edu.sg:8000/api/badges/appventure-nush/commongoods/status.svg)](https://appventure.nushigh.edu.sg:8000/appventure-nush/commongoods)
 
 A fork of commongoods for the staff, running as a container. 
-
-# commongoods-app
 
 Network:
 * primary
 
 Volumes:
-* //d/commongoods-app:/data
+* //d/commongoods:/data
 
 Environment:
-* DB_USER (optional)
-* DB_PASSWORD (optional)
-* DB_HOST (optional)
-* DB_NAME (optional)
+* DB_USER=commongoods
+* DB_PASSWORD
+* DB_HOST=commongoods-db
+* DB_NAME=commongoods
+
+# commongoods-db
+
+Image: mongo
+
+Network:
+* primary
+
+Volumes:
+* //d/commongoods-db:/data/db
+
+Environment:
+* MONGO_INITDB_ROOT_USERNAME=commongoods
+* MONGO_INITDB_ROOT_PASSWORD
+* MONGO_INITDB_DATABASE=commongoods
 
 ## Developing
 
