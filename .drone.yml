@@ -3,7 +3,7 @@ pipeline:
     image: plugins/docker
     registry: registry:5000
     insecure: true
-    repo: registry:5000/commongoods-app
+    repo: registry:5000/commongoods
     tags:
       - latest
       - "${DRONE_COMMIT_SHA:0:8}"
