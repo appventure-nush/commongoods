@@ -9,8 +9,9 @@ var dbHost = process.env.DB_HOST;
 var dbUsername = process.env.DB_USERNAME;
 var dbPassword = process.env.DB_PASSWORD;
 var dbName = process.env.DB_NAME;
+var dbAuthSource = process.env.DB_AUTHSOURCE || dbName;
 
-console.log('Connecting to mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName);
+console.log('Connecting to mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName + '?authSource=' + dbAuthSource);
 mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName, { config: { autoIndex: true } });
 
 var models = require("./models")(mongoose);
