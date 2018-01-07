@@ -12,7 +12,7 @@ var dbName = process.env.DB_NAME;
 var dbAuthSource = process.env.DB_AUTHSOURCE || dbName;
 
 console.log('Connecting to mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName + '?authSource=' + dbAuthSource);
-mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName, { config: { autoIndex: true } });
+mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName + '?authSource=' + dbAuthSource, { autoIndex: true });
 
 var models = require("./models")(mongoose);
 var backend = require("./backend")(mongoose, models);
