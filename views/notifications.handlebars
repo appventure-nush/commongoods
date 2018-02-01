@@ -15,7 +15,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{wanter.username}}">{{wanter.name}}</a> wants <a href="/user/{{owner.username}}">{{owner.name}}</a>'s item <a href="/item/{{_id}}">"{{name}}"</a></div>
+                    <div class="text"><a href="{{@root.prefix}}/user/{{wanter.username}}">{{wanter.name}}</a> wants <a href="{{@root.prefix}}/user/{{owner.username}}">{{owner.name}}</a>'s item <a href="/item/{{_id}}">"{{name}}"</a></div>
                 </div>
 				{{/status}}
 				{{#status "rejected"}}
@@ -23,7 +23,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{owner.username}}">{{owner.name}}</a> rejected your request for item <a href="/item/{{_id}}">"{{name}}"</a></div>
+                    <div class="text"><a href="{{@root.prefix}}/user/{{owner.username}}">{{owner.name}}</a> rejected your request for item <a href="{{@root.prefix}}/item/{{_id}}">"{{name}}"</a></div>
                 </div>
 				{{/status}}
 				{{#status "accepted"}}
@@ -31,7 +31,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{owner.username}}">{{owner.name}}</a> accepted <a href="/user/{{wanter.username}}">{{wanter.name}}</a>'s request for item <a href="/item/{{_id}}">"{{name}}"</a>. Arrange a meeting by going to their profile and tapping on messaging. </div>
+                    <div class="text"><a href="{{@root.prefix}}/user/{{owner.username}}">{{owner.name}}</a> accepted <a href="{{@root.prefix}}/user/{{wanter.username}}">{{wanter.name}}</a>'s request for item <a href="/item/{{_id}}">"{{name}}"</a>. Arrange a meeting by going to their profile and tapping on messaging. </div>
                 </div>
 				{{/status}}
 				{{#status "passed"}}
@@ -39,7 +39,7 @@
                     <div class="user-icon">
                         <div class="avatar" style="background-image: url('{{fileURL picture}}');"></div>
                     </div>
-                    <div class="text"><a href="/user/{{owner.username}}">{{owner.name}}</a> has confirmed that he recieved your item <a href="/item/{{_id}}">"{{name}}"</a></div>
+                    <div class="text"><a href="{{@root.prefix}}/user/{{owner.username}}">{{owner.name}}</a> has confirmed that he recieved your item <a href="{{@root.prefix}}/item/{{_id}}">"{{name}}"</a></div>
                 </div>
 				{{/status}}
                 {{/each}}
@@ -54,7 +54,7 @@
                 {{#each messages}}
                 <div class="list-group-item">
                     {{> usericon user=owner}}
-                    <div class="text"><a href="/messaging/{{owner.username}}">{{owner.name}}</a> sent you a message: "{{text}}"</div>
+                    <div class="text"><a href="{{@root.prefix}}/messaging/{{owner.username}}">{{owner.name}}</a> sent you a message: "{{text}}"</div>
                 </div>
                 {{/each}}
             </div>

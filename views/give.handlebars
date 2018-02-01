@@ -10,10 +10,10 @@
 			{{#if isowner}}
 				{{#if item.wanter}}
 					<h2>{{item.wanter.name}} wants this item</h2>
-					<form method="post" action="/item/{{item._id}}/accept">
+					<form method="post" action="{{@root.prefix}}/item/{{item._id}}/accept">
 						<button type="submit" name="confirm" class="btn btn-lg btn-success btn-block">Accept</button>
 					</form>
-					<form method="post" action="/item/{{item._id}}/reject">					
+					<form method="post" action="{{@root.prefix}}/item/{{item._id}}/reject">					
 						<button type="submit" name="confirm" class="btn btn-lg btn-danger btn-block">Reject</button>
 					</form>
 					<p>After this, you can arrange a meeting with him through the messaging system.</p>

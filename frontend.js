@@ -1,11 +1,13 @@
 var express = require("express");
 
 var frontend = express.Router();
+var prefix = "/";
 
 frontend.use(function (req, res, next) {
     res.data.error = req.flash("error");
     res.data.success = req.flash("success");
 	res.data.DEBUG = process.env.DEBUG;
+	res.data.prefix = prefix;
     next();
 });
 
@@ -82,6 +84,7 @@ frontend.get("/about", function (req, res) {
 
 frontend.use(express.static('assets'));
 
-module.exports = function (m) {
+module.exports = function (p) {
+    prefix = p;
     return frontend;
 };

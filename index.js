@@ -5,6 +5,8 @@ var expresshbs = require("express-handlebars");
 var mongoose = require("mongoose");
 var handlebars = require("handlebars");
 
+var prefix = process.env.PREFIX || "/";
+
 var dbHost = process.env.DB_HOST;
 var dbUsername = process.env.DB_USERNAME;
 var dbPassword = process.env.DB_PASSWORD;
@@ -16,7 +18,7 @@ mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '
 
 var models = require("./models")(mongoose);
 var backend = require("./backend")(mongoose, models);
-var frontend = require("./frontend")(mongoose, models);
+var frontend = require("./frontend")(prefix);
 
 var User = models.User;
 var Item = models.Item;
@@ -57,7 +59,7 @@ app.engine('handlebars', expresshbs({
             } else if (id.indexOf("http") == 0 || id.indexOf("data") == 0) {
                 return id;
             } else {
-                return "/files/" + id;
+                return prefix + "/files/" + id;
             }
         },
 		either: function () {
@@ -88,14 +90,14 @@ app.engine('handlebars', expresshbs({
 
 app.set('view engine', 'handlebars');
 
-app.use(flash());
+app.use(prefix, flash());
 
-app.use(backend);
-app.use(frontend);
+app.use(prefix, backend);
+app.use(prefix, frontend);
 
-app.use("/files", express.static(process.env.DATA_DIR));
+app.use(prefix + "files", express.static(process.env.DATA_DIR));
 
-app.use(express.static(path.join(__dirname, "assets")));
+app.use(prefix, express.static(path.join(__dirname, "assets")));
 
 var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1", function () {
     console.log("listening");

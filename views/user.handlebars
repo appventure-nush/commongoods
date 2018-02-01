@@ -35,10 +35,10 @@
 				{{#if loggedin}}
 				<div class="toolbar">
 					{{#if ownprofile}}
-						<a href="/user/{{user.username}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit Profile</a>
+						<a href="{{@root.prefix}}/user/{{user.username}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit Profile</a>
 					{{else}}
-						<a href="/messaging/{{profile.username}}" class="btn btn-primary"><i class="glyphicon glyphicon-inbox"></i> Message{{#if profile.unreadmessages}} <span class="badge">{{profile.unreadmessages}} <small>unread</small></span>{{/if}}</a>		
-						<form method="post" action="/user/{{profile.username}}/flag" class="form-inline" style="display: inline">
+						<a href="{{@root.prefix}}/messaging/{{profile.username}}" class="btn btn-primary"><i class="glyphicon glyphicon-inbox"></i> Message{{#if profile.unreadmessages}} <span class="badge">{{profile.unreadmessages}} <small>unread</small></span>{{/if}}</a>		
+						<form method="post" action="{{@root.prefix}}/user/{{profile.username}}/flag" class="form-inline" style="display: inline">
 							{{#if hasflagged}}
 								<button title="Unflag the user" type="submit" class="btn btn-danger disabled" style="cursor:pointer;">
 									<span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
