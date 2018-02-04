@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>commongoods</title>
-        <link rel="stylesheet" type="text/css" href="{{@root.prefix}}/css/main.css">
-        <link rel="shortcut icon" href="{{@root.prefix}}/images/icon-o.jpg" />
-        <link rel="apple-touch-icon-precomposed" href="{{@root.prefix}}/images/icon-o.jpg" />
+        <link rel="stylesheet" type="text/css" href="{{@root.prefix}}css/main.css">
+        <link rel="shortcut icon" href="{{@root.prefix}}images/icon-o.jpg" />
+        <link rel="apple-touch-icon-precomposed" href="{{@root.prefix}}images/icon-o.jpg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href='//fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css' />
     </head>
@@ -15,9 +15,9 @@
 
         <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
 
-            <a class="navbar-brand-wrapper" href="{{@root.prefix}}/"><img src="{{@root.prefix}}/images/icon.svg" class="navbar-brand-icon" /><span class="navbar-brand">commongoods</span></a>
+            <a class="navbar-brand-wrapper" href="{{@root.prefix}}"><img src="{{@root.prefix}}images/icon.svg" class="navbar-brand-icon" /><span class="navbar-brand">commongoods</span></a>
 
-            <form class="form-inline navbar-form" action="{{@root.prefix}}/search">
+            <form class="form-inline navbar-form" action="{{@root.prefix}}search">
                 <div class="input-group">
                     <input class="form-control btn-primary-transparent" type="search" placeholder="" name="q" value="{{query}}" tabindex="1" />
                     <span class="input-group-btn">
@@ -37,14 +37,14 @@
                     {{#if notificationcount}}<span class="badge">{{notificationcount}}</span>{{/if}}
                 </li>
                 <ul class="dropdown-menu dropdown-menu-right">                        					
-                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}/notifications">Notifications{{#if notificationcount}} <span class="badge">{{notificationcount}}</span>{{/if}}</a></li>
-                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}/new">New Item</a></li>
-                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}/user/{{user.username}}">Profile</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}notifications">Notifications{{#if notificationcount}} <span class="badge">{{notificationcount}}</span>{{/if}}</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}new">New Item</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}user/{{user.username}}">Profile</a></li>
                     <li class="dropdown-divider"></li>
-                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}/logout">Logout</a></li>
+                    <li class="dropdown-item"><a class="dropdown-link" href="{{@root.prefix}}logout">Logout</a></li>
                 </ul>
                 {{else}}
-                <li class="nav-item"><a class="nav-link" href="{{@root.prefix}}/login">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{@root.prefix}}login">Login</a></li>
                 {{/if}}
             </ul>
         </nav>
@@ -53,26 +53,26 @@
             <div class="container">
                 <nav>
                     <ul class="pull-left">
-                        <li><a href="{{@root.prefix}}/faq">FAQ</a></li>	
+                        <li><a href="{{@root.prefix}}faq">FAQ</a></li>	
                     </ul>
                     <ul class="pull-left">
-                        <li><a href="{{@root.prefix}}/about">About</a></li>	
+                        <li><a href="{{@root.prefix}}about">About</a></li>	
                     </ul>
                 </nav>
                 <p class="pull-right text-right">&copy; 2017 commongoods</p>
                 <div class="clearfix"></div>
                 <div class="text-center footer-bottom">
-                    <img src="{{@root.prefix}}/images/icon.svg" class="footer-brand-icon" />
+                    <img src="{{@root.prefix}}images/icon.svg" class="footer-brand-icon" />
                 </div>
             </div>
         </footer>
 
-        <script src="{{@root.prefix}}/js/jquery-2.1.4.min.js"></script>
-        <script src="{{@root.prefix}}/js/bootstrap.min.js"></script>
-        <script src="{{@root.prefix}}/js/autosize/dist/autosize.min.js"></script>
-        <script src="{{@root.prefix}}/js/lite-uploader/jquery.liteuploader.min.js"></script>
-        <script src="{{@root.prefix}}/js/image.js"></script>
-        <script src="{{@root.prefix}}/js/maps.js"></script>
-        <script src="{{@root.prefix}}/js/other.js"></script>
+        <script src="{{@root.prefix}}js/jquery-2.1.4.min.js"></script>
+        <script src="{{@root.prefix}}js/bootstrap.min.js"></script>
+        <script src="{{@root.prefix}}js/autosize/dist/autosize.min.js"></script>
+        <script src="{{@root.prefix}}js/lite-uploader/jquery.liteuploader.min.js"></script>
+        <script src="{{@root.prefix}}js/image.js"></script>
+        <script src="{{@root.prefix}}js/maps.js"></script>
+        <script src="{{@root.prefix}}js/other.js"></script>
     </body>
 </html>

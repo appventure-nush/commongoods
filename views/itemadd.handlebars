@@ -18,7 +18,7 @@
 				<!-- <textarea name="pickup" rows="2" col="500" class="form-control input-lg"  placeholder="Pickup Details">{{item.pickup}}</textarea> -->
 				
 				<button type="submit" name="go" class="btn btn-lg btn-primary btn-block">{{#if editing}}Save{{else}}Share{{/if}}</button>
-				{{#if editing}}<a href="{{@root.prefix}}/item/{{item._id}}" class="btn btn-lg btn-link btn-block">Cancel</a>{{/if}}
+				{{#if editing}}<a href="{{@root.prefix}}item/{{item._id}}" class="btn btn-lg btn-link btn-block">Cancel</a>{{/if}}
 			</form>
 
 		</section>  

@@ -1,4 +1,4 @@
-module.exports = function (mongoose, models) {
+module.exports = function (mongoose, models, prefix) {
 
     var http = require("http");
 
@@ -71,13 +71,13 @@ module.exports = function (mongoose, models) {
 		}));
 
 		backend.get('/auth', passport.authenticate('oidc', {
-			failureRedirect: '/login',
+			failureRedirect: prefix+'login',
 			failureFlash: true
 		}));
 
 		backend.get('/callback', passport.authenticate('oidc', {
-			successRedirect: '/',
-			failureRedirect: '/login',
+			successRedirect: prefix,
+			failureRedirect: prefix+'login',
 			failureFlash: true
 		}));
 	}
@@ -138,7 +138,7 @@ module.exports = function (mongoose, models) {
     backend.get("/messaging", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
         } else {
             next();
         }
@@ -147,7 +147,7 @@ module.exports = function (mongoose, models) {
     backend.get('/', function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
         Item.find().sort([['_id', 'descending']]).limit(100).select({_id: true, name: true, description: true, picture: true, owner: true, available: true, pickup: true}).populate("owner", {username: true, name: true, color: true, avatar: true, reputation: true}).lean().exec(function (err, items) {
@@ -165,7 +165,7 @@ module.exports = function (mongoose, models) {
     backend.get("/notifications", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
         }
 		Promise.all([
@@ -187,7 +187,7 @@ module.exports = function (mongoose, models) {
     backend.get('/search', function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
         Item.find({$text: {$search: req.query.q, $language: "en"}}).sort([['_id', 'descending']]).limit(100).populate("owner").lean().exec(function (err, items) {
@@ -203,7 +203,7 @@ module.exports = function (mongoose, models) {
     backend.get("/user/:username", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
         User.findOne({username: req.params.username}, function (err, user) {
@@ -239,7 +239,7 @@ module.exports = function (mongoose, models) {
     backend.get("/user/:username/edit", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
         } else if (req.user.username != req.params.username) {
             req.flash("error", "Don't try to edit someone else's profile! ");
             res.redirect(req.originalUrl.replace("/edit", ""));
@@ -251,7 +251,7 @@ module.exports = function (mongoose, models) {
     backend.post('/new', function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             next();
             return;
         } else if (req.body.name.length < 3) {
@@ -278,7 +278,7 @@ module.exports = function (mongoose, models) {
                 req.flash("error", "Unknown error");
                 res.redirect(req.path);
             } else {
-                res.redirect("/user/" + encodeURIComponent(req.user.username));
+                res.redirect(prefix+"user/" + encodeURIComponent(req.user.username));
                 req.user.reputation += 1;
                 req.user.save();
             }
@@ -290,7 +290,7 @@ module.exports = function (mongoose, models) {
     backend.get(["/item/:id", "/item/:id/waiting", "/item/:id/give", "/item/:id/confirmed"], function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
         Item.findOne({_id: req.params.id}).populate("wanter").populate("owner").populate("history").lean().exec(function (err, item) {
@@ -320,7 +320,7 @@ module.exports = function (mongoose, models) {
     backend.get("/item/:id/edit", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
 		// TODO: prevent edits when pending
@@ -337,7 +337,7 @@ module.exports = function (mongoose, models) {
     backend.post('/item/:id/edit', function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             next();
             return;
         } else if (req.body.name.length < 3) {
@@ -360,7 +360,7 @@ module.exports = function (mongoose, models) {
                 req.flash("error", "Unknown error");
                 res.redirect(req.path);
             } else {
-                res.redirect("/item/" + req.params.id);
+                res.redirect(prefix+"item/" + req.params.id);
             }
             next();
         });
@@ -371,13 +371,13 @@ module.exports = function (mongoose, models) {
     backend.post("/item/:id/want", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
         }
         Item.findOne({_id: req.params.id}).exec(function (err, item) {
 			if (err || !item) {
 				req.flash("error", "Item could not be found. ");
-				res.redirect("/item/" + req.params.id);
+				res.redirect(prefix+"item/" + req.params.id);
 				return;
 			}
 			if (!item.owner.equals(req.user._id)) {
@@ -388,25 +388,25 @@ module.exports = function (mongoose, models) {
 					item.wanter = req.user._id;
 					item.save();
 					req.flash("success", "Waiting for the owner to respond to your request. ");
-					res.redirect("/item/" + req.params.id + "/waiting");
+					res.redirect(prefix+"item/" + req.params.id + "/waiting");
 					return;
 				}
 			}
 			req.flash("error", "Bad request. ");
-			res.redirect("/item/" + req.params.id);
+			res.redirect(prefix+"item/" + req.params.id);
         });
     });
     
 	backend.post("/item/:id/accept", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
         }
         Item.findOne({_id: req.params.id}).exec(function (err, item) {
 			if (err || !item) {
 				req.flash("error", "Item could not be found. ");
-				res.redirect("/item/" + req.params.id);
+				res.redirect(prefix+"item/" + req.params.id);
 				return;
 			}
 			if (item.owner.equals(req.user._id)) {
@@ -415,25 +415,25 @@ module.exports = function (mongoose, models) {
 					item.status = "accepted";
 					item.save();
 					req.flash("success", "Please arrange a meeting with the person who wants it. ");
-					res.redirect("/item/" + req.params.id);
+					res.redirect(prefix+"item/" + req.params.id);
 					return;
 				}
 			}
 			req.flash("error", "Bad request. ");
-			res.redirect("/item/" + req.params.id);
+			res.redirect(prefix+"item/" + req.params.id);
         });
     });
     
 	backend.post("/item/:id/reject", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
         }
         Item.findOne({_id: req.params.id}).exec(function (err, item) {
 			if (err || !item) {
 				req.flash("error", "Item could not be found. ");
-				res.redirect("/item/" + req.params.id);
+				res.redirect(prefix+"item/" + req.params.id);
 				return;
 			}
 			if (item.owner.equals(req.user._id)) {
@@ -443,25 +443,25 @@ module.exports = function (mongoose, models) {
 					item.available = true;
 					item.save();
 					req.flash("success", "You have rejected the request. ");
-					res.redirect("/item/" + req.params.id);
+					res.redirect(prefix+"item/" + req.params.id);
 					return;
 				}
 			}
 			req.flash("error", "Bad request. ");
-			res.redirect("/item/" + req.params.id);
+			res.redirect(prefix+"item/" + req.params.id);
         });
     });
 	
 	backend.post("/item/:id/confirm", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
         }
         Item.findOne({_id: req.params.id}).exec(function (err, item) {
 			if (err || !item) {
 				req.flash("error", "Item could not be found. ");
-				res.redirect("/item/" + req.params.id);
+				res.redirect(prefix+"item/" + req.params.id);
 				return;
 			}
 			if (item.wanter && item.wanter.equals(req.user._id)) {
@@ -479,25 +479,25 @@ module.exports = function (mongoose, models) {
 					item.available = false;
 					item.save();
 					req.flash("success", "You now own the item. ");
-					res.redirect("/item/" + req.params.id + "/confirmed");
+					res.redirect(prefix+"item/" + req.params.id + "/confirmed");
 					return;
 				}
 			}
 			req.flash("error", "Bad request. ");
-			res.redirect("/item/" + req.params.id);
+			res.redirect(prefix+"item/" + req.params.id);
         });
     });
 
     backend.post("/item/:id/available", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
 			return;
         }
 		Item.findOne({_id: req.params.id}, function (err, item) {
 			if (err || !item) {
 				req.flash("error", "Item could not be found. ");
-				res.redirect("/item/" + req.params.id);
+				res.redirect(prefix+"item/" + req.params.id);
 				return;
 			}
 			if (item.owner.equals(req.user._id)) {
@@ -505,26 +505,26 @@ module.exports = function (mongoose, models) {
 					item.available = false;
 					item.save();
 					req.flash("success", "The item is now unavailable. ");
-					res.redirect("/item/" + item.id);
+					res.redirect(prefix+"item/" + item.id);
 					return;
 				}
 				else {
 					item.available = true;
 					item.save();
 					req.flash("success", "The item is now available. ");
-					res.redirect("/item/" + item.id);
+					res.redirect(prefix+"item/" + item.id);
 					return;
 				}
 			}
 			req.flash("error", "Bad request. ");
-			res.redirect("/item/" + req.params.id);
+			res.redirect(prefix+"item/" + req.params.id);
         });
     });
 
     backend.post("/user/:username/edit", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
         } else if (req.user.username != req.params.username) {
             req.flash("error", "Don't try to edit someone else's profile! ");
             res.redirect(req.originalUrl.replace("/edit", ""));
@@ -539,13 +539,13 @@ module.exports = function (mongoose, models) {
                     if (newpass) {
 						if (req.body.newpassword != req.body.newpassword2) {
 							req.flash("error", "Passwords do not match");
-							res.redirect("/user/" + encodeURIComponent(user.username) + "/edit");
+							res.redirect(prefix+"user/" + encodeURIComponent(user.username) + "/edit");
 							next();
 							return;
 						}
                     	else if (req.body.newpassword.length < 3) {
 							req.flash("error", "Password too short");
-							res.redirect("/user/" + encodeURIComponent(user.username) + "/edit");
+							res.redirect(prefix+"user/" + encodeURIComponent(user.username) + "/edit");
 							next();
 							return;
 						}
@@ -563,7 +563,7 @@ module.exports = function (mongoose, models) {
 						}
 						user.save();
 						req.flash("success", "Profile modified successfully. ");
-						res.redirect("/user/" + encodeURIComponent(user.username));
+						res.redirect(prefix+"user/" + encodeURIComponent(user.username));
 						next();
 					}
 
@@ -577,7 +577,7 @@ module.exports = function (mongoose, models) {
 							}
 							else {
 								req.flash("error", "Old password incorrect");
-								res.redirect("/user/" + encodeURIComponent(user.username) + "/edit");
+								res.redirect(prefix+"user/" + encodeURIComponent(user.username) + "/edit");
 								next();
 								return;
 							}	
@@ -595,7 +595,7 @@ module.exports = function (mongoose, models) {
     backend.post("/user/:username/flag", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
         } else {
             User.findOne({username: req.params.username}, function (err, user) {
                 if (err || !user) {
@@ -615,7 +615,7 @@ module.exports = function (mongoose, models) {
                         console.log(req.user.username + " unflagged " + user.username);
                     }
                     user.save();
-                    res.redirect("/user/" + encodeURIComponent(user.username));
+                    res.redirect(prefix+"user/" + encodeURIComponent(user.username));
                     next();
                 }
             });
@@ -625,7 +625,7 @@ module.exports = function (mongoose, models) {
     backend.get("/map/data", function (req, res, next) {
         if (!req.user) {
             req.flash("error", "Please log in");
-            res.redirect("/login");
+            res.redirect(prefix+"login");
             return;
 		}
         Item.find().sort([['_id', 'descending']]).limit(100).select({_id: true, name: true, description: true, picture: true, owner: true, available: true, location: true}).populate("owner", {username: true, name: true, color: true, avatar: true, reputation: true}).lean().exec(function (err, items) {
@@ -640,7 +640,7 @@ module.exports = function (mongoose, models) {
 
     backend.get('/logout', function (req, res) {
         req.logout();
-        res.redirect("/");
+        res.redirect(prefix);
     });
     
     return backend;

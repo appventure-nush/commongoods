@@ -17,7 +17,7 @@ console.log('Connecting to mongodb://' + dbUsername + ':' + dbPassword + '@' + d
 mongoose.connect('mongodb://' + dbUsername + ':' + dbPassword + '@' + dbHost + '/' + dbName + '?authSource=' + dbAuthSource, { autoIndex: true });
 
 var models = require("./models")(mongoose);
-var backend = require("./backend")(mongoose, models);
+var backend = require("./backend")(mongoose, models, prefix);
 var frontend = require("./frontend")(prefix);
 
 var User = models.User;

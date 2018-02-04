@@ -48,11 +48,11 @@
 						{{> usericon user=this norep=true}}
 					</div>
 					<div class="info">
-						<a href="{{@root.prefix}}/user/{{username}}">
+						<a href="{{@root.prefix}}user/{{username}}">
 							<h1>{{name}}</h1>
 						</a>
 						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
-						{{#if @root.iswanter}}<a href="{{@root.prefix}}/messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
+						{{#if @root.iswanter}}<a href="{{@root.prefix}}messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -66,11 +66,11 @@
 						{{> usericon user=this norep=true}}
 					</div>
 					<div class="info">
-						<a href="{{@root.prefix}}/user/{{username}}">
+						<a href="{{@root.prefix}}user/{{username}}">
 							<h1>{{name}}</h1>
 						</a>
 						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
-						{{#if @root.isowner}}<a href="{{@root.prefix}}/messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
+						{{#if @root.isowner}}<a href="{{@root.prefix}}messaging/{{username}}" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-inbox"></i>{{#if @root.unreadmessages}} <span class="badge">{{@root.unreadmessages}}</span>{{/if}}</a>{{/if}}
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -80,24 +80,24 @@
 				<div class="toolbar">
 					{{#status "posted" "rejected" "passed"}}
 						{{#if @root.isowner}}
-							<form method="post" action="{{@root.prefix}}/item/{{_id}}/available" class="form-inline post-button">
+							<form method="post" action="{{@root.prefix}}item/{{_id}}/available" class="form-inline post-button">
 								{{#if available}}
 									<button type="submit" class="btn btn-primary">Set as Unavailable</button>
 								{{else}}
 									<button type="submit" class="btn btn-primary">Set as Available</button>
 								{{/if}}
 							</form>
-							<a href="{{@root.prefix}}/item/{{_id}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+							<a href="{{@root.prefix}}item/{{_id}}/edit" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
 						{{/if}}
 						{{#unless @root.isowner}}
-							<form method="post" action="{{@root.prefix}}/item/{{_id}}/want">
+							<form method="post" action="{{@root.prefix}}item/{{_id}}/want">
 								<button type="submit" class="btn btn-primary">Get Item</button>
 							</form>
 						{{/unless}}
 					{{/status}}
 					{{#status "pending"}}
 						{{#if @root.isowner}}
-							<a href="{{@root.prefix}}/item/{{_id}}/give" class="btn btn-info"><i class="glyphicon glyphicon-gift"></i> Accept/Reject</a>
+							<a href="{{@root.prefix}}item/{{_id}}/give" class="btn btn-info"><i class="glyphicon glyphicon-gift"></i> Accept/Reject</a>
 						{{/if}}
 						{{#if @root.iswanter}}
 							<button class="btn btn-primary" disabled>Waiting for owner to accept</button>
@@ -105,7 +105,7 @@
 					{{/status}}
 					{{#status "accepted"}}
 						{{#if @root.iswanter}}
-							<form method="post" action="{{@root.prefix}}/item/{{_id}}/confirm">
+							<form method="post" action="{{@root.prefix}}item/{{_id}}/confirm">
 								<button type="submit" class="btn btn-primary">Confirm that you have recieved it</button>
 							</form>
 						{{/if}}
@@ -126,7 +126,7 @@
 						{{> usericon user=this norep=true}}
 					</div>
 					<div class="info">
-						<a href="{{@root.prefix}}/user/{{username}}">
+						<a href="{{@root.prefix}}user/{{username}}">
 							<h1>{{name}}</h1>
 						</a>
 						<span class="badge"><i class="glyphicon glyphicon-star"></i> <span>{{reputation}}</span></span>
