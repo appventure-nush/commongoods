@@ -103,7 +103,9 @@ var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1",
     console.log("listening");
 });
 
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {
+    path: prefix + "socket.io"
+});
 
 function push(socket, me, message) {
     socket.emit("message", {
