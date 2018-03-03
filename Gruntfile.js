@@ -4,11 +4,10 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         options:{
-          outputStyle: 'compressed',
-          sourceMap: 'inline'
+          outputStyle: 'compressed'
         },
         files: {
-          'assets/css/main.css': 'assets/sass/main.scss'
+          'assets/css/main.css': 'assets/sass/main.scss',
           'assets/css/messaging.css': 'assets/sass/messaging.scss'
         }
       }
