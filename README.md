@@ -7,7 +7,7 @@ Network:
 * primary
 
 Volumes:
-* //d/commongoods:/data
+* commongoods_data:/data
 
 Environment:
 * DB_USERNAME=commongoods
@@ -15,6 +15,7 @@ Environment:
 * DB_HOST=commongoods-db
 * DB_NAME=commongoods
 * DB_AUTHSOURCE=admin
+* IP=0.0.0.0
 
 # commongoods-db
 
@@ -24,7 +25,7 @@ Network:
 * primary
 
 Volumes:
-* //d/commongoods-db:/data/db
+* commongoods-db_data:/data/db
 
 Environment:
 * MONGO_INITDB_ROOT_USERNAME=commongoods
