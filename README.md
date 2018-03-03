@@ -14,6 +14,7 @@ Environment:
 * DB_PASSWORD
 * DB_HOST=commongoods-db
 * DB_NAME=commongoods
+* DB_AUTHSOURCE=admin
 
 # commongoods-db
 
