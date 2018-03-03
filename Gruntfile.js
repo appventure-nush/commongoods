@@ -9,6 +9,7 @@ module.exports = function(grunt) {
         },
         files: {
           'assets/css/main.css': 'assets/sass/main.scss'
+          'assets/css/messaging.css': 'assets/sass/messaging.scss'
         }
       }
     },
@@ -20,7 +21,7 @@ module.exports = function(grunt) {
         ]
       },
       dist:{
-        src: 'assets/css/main.css'
+        src: ['assets/css/main.css', 'assets/css/messaging.css']
       }
     },
     watch: {

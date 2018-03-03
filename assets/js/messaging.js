@@ -37,7 +37,9 @@ AutoRenderer.prototype.update = function (newContext) {
 
 var a = new AutoRenderer();
 
-var socket = io();
+var socket = io({
+    path: window.location.pathname.split("messaging")[0] + "socket.io"
+});
 
 var cont = {
     messages: [],
@@ -46,7 +48,7 @@ var cont = {
 };
 
 socket.on("badauth", function () {
-    window.location = "/login";
+    window.location = "login";
 });
 
 var getuser = new Promise(function (resolve, reject) {
