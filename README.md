@@ -10,7 +10,7 @@ Volumes:
 * //d/commongoods:/data
 
 Environment:
-* DB_USER=commongoods
+* DB_USERNAME=commongoods
 * DB_PASSWORD
 * DB_HOST=commongoods-db
 * DB_NAME=commongoods
