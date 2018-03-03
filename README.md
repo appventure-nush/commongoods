@@ -17,6 +17,8 @@ Environment:
 * DB_AUTHSOURCE=admin
 * IP=0.0.0.0
 
+*Also ensure config.js is up-to-date with `sso`*
+
 # commongoods-db
 
 Image: mongo
