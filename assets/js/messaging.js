@@ -47,6 +47,8 @@ var cont = {
     me: {}
 };
 
+var reconnecting = false;;
+
 socket.on("badauth", function () {
     window.location = window.location.pathname.split("messaging")[0] + "login";
 });
@@ -62,29 +64,38 @@ socket.on("badto", function (e) {
 socket.on("error", function (e) {
     cont.messages.push({
         ismeta: true,
-        text: "" + e
+        text: socket.connected ? e : "Unable to send message";
     });
+    console.error(e);
     a.update(cont);
 });
 socket.on("connect_error", function (e) {
-    cont.messages.push({
-        ismeta: true,
-        text: "Connection failed: " + e
-    });
+    if (!reconnecting && e.message == "xhr poll error") {
+        cont.messages.push({
+            ismeta: true,
+            text: "Connection failed"
+        });
+    }
+    console.error(e);
     a.update(cont);
 });
 socket.on("connect_timeout", function (e) {
     cont.messages.push({
         ismeta: true,
-        text: "Connection timeout: " + e
+        text: "Connection timeout"
     });
+    reconnecting = false;
+    console.error(e);
     a.update(cont);
 });
 socket.on("reconnect_attempt", function (e) {
-    cont.messages.push({
-        ismeta: true,
-        text: "Reconnecting..."
-    });
+    if (!reconnecting) {
+        cont.messages.push({
+            ismeta: true,
+            text: "Reconnecting..."
+        });
+    }
+    reconnecting = true;
     a.update(cont);
 });
 socket.on("reconnect_failed", function (e) {
@@ -92,6 +103,7 @@ socket.on("reconnect_failed", function (e) {
         ismeta: true,
         text: "Couldn't reconnect, reload the page to continue"
     });
+    reconnecting = false;
     a.update(cont);
 });
 socket.on("reconnect", function (e) {
@@ -99,6 +111,7 @@ socket.on("reconnect", function (e) {
         ismeta: true,
         text: "Reconnected!"
     });
+    reconnecting = false;
     a.update(cont);
 });
 socket.on("disconnected", function (e) {
@@ -106,6 +119,7 @@ socket.on("disconnected", function (e) {
         ismeta: true,
         text: "Disconnected: " + e
     });
+    reconnecting = false;
     a.update(cont);
 });
 
@@ -156,10 +170,18 @@ Promise.all([getme, getuser]).then(function () {
 
 document.getElementById("messageform").addEventListener("submit", function (e) {
     e.preventDefault();
-    socket.emit("message", {
-        text: document.getElementById("message").value,
-        to: cont.to
-    });
-    document.getElementById("message").value = "";
+    if (socket.connected) {
+        socket.emit("message", {
+            text: document.getElementById("message").value,
+            to: cont.to
+        });
+        document.getElementById("message").value = "";
+    } else {
+        cont.messages.push({
+            ismeta: true,
+            text: "Not connected, unable to send message"
+        });
+        a.update(cont);
+    }
 });
 
