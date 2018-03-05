@@ -86,8 +86,14 @@ socket.on("reconnect", function (e) {
 
 var getuser = new Promise(function (resolve, reject) {
     socket.emit("getuser", {
-        username: decodeURIComponent(window.location.pathname.split("/")[-1])
+        username: decodeURIComponent(window.location.pathname.split("/").pop())
     }, function (data) {
+        if (!data._id) {
+            cont.messages.push({
+                ismeta: true,
+                text: "User not found!"
+            });
+        }
         cont.to = data;
         resolve();
     });
