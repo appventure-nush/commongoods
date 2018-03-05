@@ -64,7 +64,7 @@ socket.on("badto", function (e) {
 socket.on("error", function (e) {
     cont.messages.push({
         ismeta: true,
-        text: socket.connected ? e : "Unable to send message";
+        text: socket.connected ? "Unable to send message(s)" : e
     });
     console.error(e);
     a.update(cont);
@@ -176,9 +176,10 @@ document.getElementById("messageform").addEventListener("submit", function (e) {
             to: cont.to
         });
         document.getElementById("message").value = "";
-    } else {
+    } else if (cont.messages[cont.messages.length-1].isunable != true) {
         cont.messages.push({
             ismeta: true,
+            isunable: true,
             text: "Not connected, unable to send message"
         });
         a.update(cont);
