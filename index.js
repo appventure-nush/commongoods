@@ -104,7 +104,9 @@ var server = app.listen(process.env.PORT || 8080, process.env.IP || "127.0.0.1",
 });
 
 var io = require('socket.io')(server, {
-    path: prefix + "socket.io"
+    path: prefix + "socket.io",
+    pingInterval: 1000,
+    pingTimeout: 3000
 });
 
 function push(socket, me, message) {
