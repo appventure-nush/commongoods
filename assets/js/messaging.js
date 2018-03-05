@@ -115,6 +115,7 @@ socket.on("reconnect", function (e) {
     });
     document.getElementById("message").disabled = false;
     document.getElementById("messagesubmit").disabled = false;
+    sending = false;
     reconnecting = false;
     a.update(cont);
 });
@@ -199,6 +200,8 @@ document.getElementById("messageform").addEventListener("submit", function (e) {
             isunable: true,
             text: "Not connected, unable to send message"
         });
+        document.getElementById("message").disabled = true;
+        document.getElementById("messagesubmit").disabled = true;
         a.update(cont);
     }
 });
