@@ -48,7 +48,7 @@ var cont = {
 };
 
 socket.on("badauth", function () {
-    window.location = "login";
+    window.location = window.location.pathname.split("messaging")[0] + "login";
 });
 
 var getuser = new Promise(function (resolve, reject) {
