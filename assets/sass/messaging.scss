@@ -12,6 +12,12 @@ form.container #message {
 .list-group .isself {
 	text-align: right;
 }
+.list-group .ismeta {
+	text-align: center;
+    font-style: italic;
+    font-size: 80%;
+	color: #888;
+}
 .list-group small {
 	color: #888;
 }
