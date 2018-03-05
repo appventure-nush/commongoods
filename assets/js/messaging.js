@@ -51,6 +51,39 @@ socket.on("badauth", function () {
     window.location = window.location.pathname.split("messaging")[0] + "login";
 });
 
+socket.on("badto", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Unable to send: The user is not on commongoods yet"
+    });
+});
+
+socket.on("connect_error", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Connection failed: " + e
+    });
+});
+socket.on("reconnect_error", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Reconnecting failed: " + e
+    });
+});
+socket.on("reconnect_attempt", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Reconnecting..."
+    });
+});
+socket.on("reconnect", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Reconnected!"
+    });
+});
+
+
 var getuser = new Promise(function (resolve, reject) {
     socket.emit("getuser", {
         username: decodeURIComponent(window.location.pathname.split("/")[2])
