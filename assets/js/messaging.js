@@ -56,33 +56,58 @@ socket.on("badto", function (e) {
         ismeta: true,
         text: "Unable to send: The user is not on commongoods yet"
     });
+    resolve();
 });
 
+socket.on("error", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "" + e
+    });
+    resolve();
+});
 socket.on("connect_error", function (e) {
     cont.messages.push({
         ismeta: true,
         text: "Connection failed: " + e
     });
+    resolve();
 });
-socket.on("reconnect_error", function (e) {
+socket.on("connect_timeout", function (e) {
     cont.messages.push({
         ismeta: true,
-        text: "Reconnecting failed: " + e
+        text: "Connection timeout: " + e
     });
+    resolve();
 });
 socket.on("reconnect_attempt", function (e) {
     cont.messages.push({
         ismeta: true,
         text: "Reconnecting..."
     });
+    resolve();
+});
+socket.on("reconnect_failed", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Couldn't reconnect, reload the page to continue"
+    });
+    resolve();
 });
 socket.on("reconnect", function (e) {
     cont.messages.push({
         ismeta: true,
         text: "Reconnected!"
     });
+    resolve();
 });
-
+socket.on("disconnected", function (e) {
+    cont.messages.push({
+        ismeta: true,
+        text: "Disconnected: " + e
+    });
+    resolve();
+});
 
 var getuser = new Promise(function (resolve, reject) {
     socket.emit("getuser", {
