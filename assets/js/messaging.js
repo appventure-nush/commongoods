@@ -54,7 +54,7 @@ socket.on("badauth", function () {
 socket.on("badto", function (e) {
     cont.messages.push({
         ismeta: true,
-        text: "Unable to send: The user is not on commongoods yet"
+        text: "Unable to send message"
     });
     a.update(cont);
 });
@@ -116,8 +116,9 @@ var getuser = new Promise(function (resolve, reject) {
         if (!data._id) {
             cont.messages.push({
                 ismeta: true,
-                text: "User not found!"
+                text: "User is not on commongoods yet!"
             });
+            a.update(cont);
         }
         cont.to = data;
         resolve();
@@ -144,11 +145,11 @@ Promise.all([getme, getuser]).then(function () {
             cont.messages.push(message);
             a.update(cont);
             window.scrollTo(0, document.getElementById("messageform").offsetTop);
-			fn("success");
+            fn("success");
         }
-		else {
-			fn("ignore");
-		}
+        else {
+            fn("ignore");
+        }
     });
 
 });
