@@ -7,7 +7,7 @@
 			<script type="text/x-handlebars-template">
 				\{{#each messages}}
 				<div class="list-group-item\{{#if isself}} isself\{{/if}}\{{#if ismeta}} ismeta\{{/if}}">
-					<small>\{{#if isself}}\{{../../me.name}}\{{else}}\{{#if ismeta}}{{else}}\{{../../to.name}}\{{/if}}\{{/if}}: </small> 
+					<small>\{{#if isself}}\{{../../me.name}}\{{else}}\{{#if ismeta}}\{{else}}\{{../../to.name}}\{{/if}}\{{/if}}: </small> 
 					\{{text}}
 				</div>
 				\{{/each}}
