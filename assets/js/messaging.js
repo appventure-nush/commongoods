@@ -86,7 +86,7 @@ socket.on("reconnect", function (e) {
 
 var getuser = new Promise(function (resolve, reject) {
     socket.emit("getuser", {
-        username: decodeURIComponent(window.location.pathname.split("/")[2])
+        username: decodeURIComponent(window.location.pathname.split("/")[-1])
     }, function (data) {
         cont.to = data;
         resolve();
