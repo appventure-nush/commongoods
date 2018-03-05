@@ -66,6 +66,8 @@ socket.on("error", function (e) {
         ismeta: true,
         text: socket.connected ? "Unable to send message(s)" : e
     });
+    document.getElementById("message").disabled = true;
+    document.getElementById("messagesubmit").disabled = true;
     console.error(e);
     a.update(cont);
 });
@@ -111,6 +113,8 @@ socket.on("reconnect", function (e) {
         ismeta: true,
         text: "Reconnected!"
     });
+    document.getElementById("message").disabled = false;
+    document.getElementById("messagesubmit").disabled = false;
     reconnecting = false;
     a.update(cont);
 });
@@ -156,6 +160,12 @@ Promise.all([getme, getuser]).then(function () {
     socket.on("message", function (message, fn) {
         console.log(message);
         if (message.isself ? (cont.to._id == message.to) : (cont.to._id == message.owner)) {
+            if (sending == true) {
+                sending = false;
+                document.getElementById("message").disabled = false;
+                document.getElementById("messagesubmit").disabled = false;
+                document.getElementById("message").value = "";
+            }
             cont.messages.push(message);
             a.update(cont);
             window.scrollTo(0, document.getElementById("messageform").offsetTop);
@@ -168,14 +178,21 @@ Promise.all([getme, getuser]).then(function () {
 
 });
 
+var sending = false;
+
 document.getElementById("messageform").addEventListener("submit", function (e) {
     e.preventDefault();
     if (socket.connected) {
+        if (sending == true) {
+            return;
+        }
+        sending = true;
         socket.emit("message", {
             text: document.getElementById("message").value,
             to: cont.to
         });
-        document.getElementById("message").value = "";
+        document.getElementById("message").disabled = true;
+        document.getElementById("messagesubmit").disabled = true;
     } else if (cont.messages[cont.messages.length-1].isunable != true) {
         cont.messages.push({
             ismeta: true,
