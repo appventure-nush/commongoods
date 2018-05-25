@@ -18,7 +18,7 @@ $(document).ready(function () {
             showPicked($(imagepick).data("existing"));
         }
         $("input[type=file]", imagepick).liteUploader({
-            script: "/files/new",
+            script: window.location.pathname.split("files")[0] + "files/new",
             params: {
                 type: $(imagepick).data("type")
             }
