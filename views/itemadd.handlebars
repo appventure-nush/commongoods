@@ -2,7 +2,7 @@
 	<div class="row">
 		<section class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
 			<h2>{{#if editing}}Editing this item{{else}}Share an item{{/if}}</h2>
-			<form method="post" action="{{#if item}}/item/{{item._id}}/edit{{else}}/new{{/if}}">
+			<form method="post" action="{{#if item}}{{@root.prefix}}item/{{item._id}}/edit{{else}}{{@root.prefix}}new{{/if}}">
 				{{#if error}} 
 				<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
