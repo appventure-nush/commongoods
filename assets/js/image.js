@@ -11,7 +11,7 @@ $(document).ready(function () {
             $("progress", imagepick).val(0);
             $("progress", imagepick).hide();
             $("input[type=hidden]", imagepick).val(id);
-            $("img", imagepick).prop("src", "/files/" + id);
+            $("img", imagepick).prop("src", window.location.pathname.split("new")[0] + "files/" + id);
             $("img", imagepick).show();
         };
         if ($(imagepick).data("existing")) {
