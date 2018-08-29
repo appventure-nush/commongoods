@@ -91,6 +91,9 @@ module.exports = function (mongoose, models, prefix) {
 		registerPassport(client, {
 			scope: 'openid profile email'
 		});
+	}).catch(function (e) {
+		console.error(e);
+		process.exit(1);
 	});
 
     passport.serializeUser(function (user, done) {
