@@ -1,38 +1,9 @@
 
 # commongoods [![Build Status](https://appventure.nushigh.edu.sg:8000/api/badges/appventure-nush/commongoods/status.svg)](https://appventure.nushigh.edu.sg:8000/appventure-nush/commongoods)
 
-A fork of commongoods for the staff, running as a container. 
+\[Deployment: [docker-compose.yml](https://github.com/appventure-nush/infrastructure/blob/master/setup-scripts/nhsint-commongoods.yml) | [registry](https://appventure.nushigh.edu.sg/registry/#/commongoods)\]
 
-Network:
-* primary
-
-Volumes:
-* commongoods_data:/data
-
-Environment:
-* DB_USERNAME=commongoods
-* DB_PASSWORD
-* DB_HOST=commongoods-db
-* DB_NAME=commongoods
-* DB_AUTHSOURCE=admin
-* IP=0.0.0.0
-
-*Also ensure config.js is up-to-date with `sso`*
-
-# commongoods-db
-
-Image: mongo
-
-Network:
-* primary
-
-Volumes:
-* commongoods-db_data:/data/db
-
-Environment:
-* MONGO_INITDB_ROOT_USERNAME=commongoods
-* MONGO_INITDB_ROOT_PASSWORD
-* MONGO_INITDB_DATABASE=commongoods
+A fork of commongoods for NUS High staff, running as a container.
 
 ## Developing
 
