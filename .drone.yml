@@ -6,3 +6,5 @@ pipeline:
     repo: registry:5000/commongoods
     tags:
       - latest
+    when:
+      branch: master
